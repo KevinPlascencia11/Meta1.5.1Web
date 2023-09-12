@@ -24,6 +24,12 @@
             value="tabla"
             @click="insertarRuta('/tabla')"
           ></v-list-item>
+          <v-list-item
+            prepend-icon="mdi-table"
+            title="Tabla Update"
+            value="updatetabla"
+            @click="insertarRuta('/updatetabla')"
+          ></v-list-item>
         </v-list>
       </v-navigation-drawer>
 

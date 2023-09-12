@@ -14,13 +14,11 @@
       </tr>
     </thead>
     <tbody>
-      <template v-for="(item, index) in informacion" :key="item.id">
-        <tr v-for="(info, idx) in item.info" :key="idx">
-          <td class="text-center">{{ idx === 0 ? item.Nombre : '' }}</td>
-          <td class="text-center">{{ info.Titulo }}</td>
-          <td class="text-justify">{{ info.Contenido }}</td>
-        </tr>
-      </template>
+      <tr v-for="(item, index) in informacion" :key="index">
+        <td class="text-center">{{ item.Nombre }}</td>
+        <td class="text-center">{{ item.info.Titulo }}</td>
+        <td class="text-justify">{{ item.info.Contenido }}</td>
+      </tr>
     </tbody>
   </v-table>
 </template>
@@ -37,17 +35,19 @@ async function fetchData() {
   const postsResponse = await fetch('https://jsonplaceholder.typicode.com/posts');
   const postsData = await postsResponse.json();
 
-  informacion.value = usersData.map(user => {
+  informacion.value = [];
+
+  usersData.forEach(user => {
     const userPosts = postsData.filter(post => post.userId === user.id);
-    return {
-      Nombre: user.name,
-      info: userPosts.map(post => {
-        return {
+    userPosts.forEach(post => {
+      informacion.value.push({
+        Nombre: user.name,
+        info: {
           Titulo: post.title,
           Contenido: post.body,
-        };
-      }),
-    };
+        },
+      });
+    });
   });
 
   console.log(informacion.value);
